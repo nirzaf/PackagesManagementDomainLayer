@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PackagesManagement.Queries
 {
-    public interface IDestinationListQuery: IQuery
+    public interface IDestinationListQuery : IQuery
     {
         Task<IEnumerable<SelectListItem>> AllDestinations();
     }

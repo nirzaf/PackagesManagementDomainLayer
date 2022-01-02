@@ -24,6 +24,7 @@ namespace PackagesManagementTest
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.Equal(vm, viewResult.Model);
         }
+
         [Fact]
         public async Task DeletePostSuccessTest()
         {
@@ -35,14 +36,14 @@ namespace PackagesManagementTest
                 .Returns(Task.CompletedTask);
             var vm = new PackageFullEditViewModel();
 
-            var result = await controller.Edit(vm, 
+            var result = await controller.Edit(vm,
                 commandDependency.Object);
-                commandDependency.Verify(m => m.HandleAsync(
-                It.IsAny<UpdatePackageCommand>()), 
+            commandDependency.Verify(m => m.HandleAsync(
+                    It.IsAny<UpdatePackageCommand>()),
                 Times.Once);
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
-             
-            Assert.Equal(nameof(ManagePackagesController.Index), 
+
+            Assert.Equal(nameof(ManagePackagesController.Index),
                 redirectResult.ActionName);
             Assert.Null(redirectResult.ControllerName);
         }

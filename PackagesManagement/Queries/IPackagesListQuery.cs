@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace PackagesManagement.Queries
 {
-    public interface IPackagesListQuery: IQuery
+    public interface IPackagesListQuery : IQuery
     {
         Task<IEnumerable<PackageInfosViewModel>> GetAllPackages();
-        
     }
 }

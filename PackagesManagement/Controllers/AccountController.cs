@@ -23,10 +23,8 @@ namespace PackagesManagement.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
-
-
-
         }
+
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
@@ -38,11 +36,11 @@ namespace PackagesManagement.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
-        
+
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(
             LoginViewModel model,
-           string returnUrl = null)
+            string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (User.Identity.IsAuthenticated)
@@ -50,13 +48,14 @@ namespace PackagesManagement.Controllers
                 await HttpContext.SignOutAsync();
                 return View(model);
             }
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(
-                    model.UserName, 
-                    model.Password, model.RememberMe, lockoutOnFailure: false);
+                    model.UserName,
+                    model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(returnUrl))
@@ -74,6 +73,7 @@ namespace PackagesManagement.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()

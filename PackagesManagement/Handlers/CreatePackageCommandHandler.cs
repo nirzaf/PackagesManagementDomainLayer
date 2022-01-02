@@ -10,14 +10,16 @@ namespace PackagesManagement.Handlers
 {
     public class CreatePackageCommandHandler : ICommandHandler<CreatePackageCommand>
     {
-        IPackageRepository repo;
+        private IPackageRepository repo;
+
         public CreatePackageCommandHandler(IPackageRepository repo)
         {
             this.repo = repo;
         }
-        public async Task  HandleAsync(CreatePackageCommand command)
+
+        public async Task HandleAsync(CreatePackageCommand command)
         {
-            var model= repo.New();
+            var model = repo.New();
             model.FullUpdate(command.Values);
             await repo.UnitOfWork.SaveEntitiesAsync();
         }

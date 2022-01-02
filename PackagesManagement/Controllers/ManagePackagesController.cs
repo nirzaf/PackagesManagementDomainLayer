@@ -14,7 +14,7 @@ using PackagesManagementDomain.IRepositories;
 
 namespace PackagesManagement.Controllers
 {
-    [Authorize(Roles= "Admins")]
+    [Authorize(Roles = "Admins")]
     public class ManagePackagesController : Controller
     {
         [HttpGet]
@@ -24,37 +24,46 @@ namespace PackagesManagement.Controllers
             var vm = new PackagesListViewModel { Items = results };
             return View(vm);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
             return View("Edit");
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(
             PackageFullEditViewModel vm,
             [FromServices] ICommandHandler<CreatePackageCommand> command)
         {
-            if (ModelState.IsValid) { 
+            if (ModelState.IsValid)
+            {
                 await command.HandleAsync(new CreatePackageCommand(vm));
                 return RedirectToAction(
-                    nameof(ManagePackagesController.Index));
+                    nameof(Index));
             }
             else
+            {
                 return View("Edit", vm);
+            }
         }
+
         [HttpGet]
         public async Task<IActionResult> Edit(
             int id,
             [FromServices] IPackageRepository repo)
         {
-            if (id == 0) return RedirectToAction(
-                nameof(ManagePackagesController.Index));
+            if (id == 0)
+                return RedirectToAction(
+                    nameof(Index));
             var aggregate = await repo.Get(id);
-            if (aggregate == null) return RedirectToAction(
-                nameof(ManagePackagesController.Index));
+            if (aggregate == null)
+                return RedirectToAction(
+                    nameof(Index));
             var vm = new PackageFullEditViewModel(aggregate);
             return View(vm);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(
             PackageFullEditViewModel vm,
@@ -64,10 +73,12 @@ namespace PackagesManagement.Controllers
             {
                 await command.HandleAsync(new UpdatePackageCommand(vm));
                 return RedirectToAction(
-                    nameof(ManagePackagesController.Index));
+                    nameof(Index));
             }
             else
+            {
                 return View(vm);
+            }
         }
 
         [HttpGet]
@@ -75,13 +86,9 @@ namespace PackagesManagement.Controllers
             int id,
             [FromServices] ICommandHandler<DeletePackageCommand> command)
         {
-            if (id>0)
-            {
-                await command.HandleAsync(new DeletePackageCommand(id));
-                
-            }
+            if (id > 0) await command.HandleAsync(new DeletePackageCommand(id));
             return RedirectToAction(
-                    nameof(ManagePackagesController.Index));
+                nameof(Index));
         }
     }
 }

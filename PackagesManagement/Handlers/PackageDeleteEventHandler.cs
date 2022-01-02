@@ -9,11 +9,13 @@ namespace PackagesManagement.Handlers
     public class PackageDeleteEventHandler :
         IEventHandler<PackageDeleteEvent>
     {
-        IPackageEventRepository repo;
+        private IPackageEventRepository repo;
+
         public PackageDeleteEventHandler(IPackageEventRepository repo)
         {
             this.repo = repo;
         }
+
         public Task HandleAsync(PackageDeleteEvent ev)
         {
             repo.New(PackageEventType.Deleted, ev.PackageId, ev.OldVersion);

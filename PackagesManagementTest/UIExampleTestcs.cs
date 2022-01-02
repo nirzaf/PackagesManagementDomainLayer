@@ -1,5 +1,4 @@
-﻿
-using PackagesManagement;
+﻿using PackagesManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +11,12 @@ using System.IO;
 
 namespace PackagesManagementTest
 {
-    public class UIExampleTestcs:
-         IClassFixture<WebApplicationFactory<Startup>>
+    public class UIExampleTestcs :
+        IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly
             WebApplicationFactory<Startup> _factory;
+
         public UIExampleTestcs(WebApplicationFactory<Startup> factory)
         {
             _factory = factory;
@@ -26,7 +26,7 @@ namespace PackagesManagementTest
         public async Task TestMenu()
         {
             var client = _factory.CreateClient();
-            
+
             //Create an angleSharp default configuration
             var config = Configuration.Default;
 
@@ -36,10 +36,10 @@ namespace PackagesManagementTest
 
             var response = await client.GetAsync("/");
             response.EnsureSuccessStatusCode();
-            string source = await response.Content.ReadAsStringAsync();
+            var source = await response.Content.ReadAsStringAsync();
             var document = await context.OpenAsync(req =>
                 req.Content(source));
-            var node = document.QuerySelector("a[href=\"/ManagePackages\"]");   
+            var node = document.QuerySelector("a[href=\"/ManagePackages\"]");
 
             Assert.NotNull(node);
         }

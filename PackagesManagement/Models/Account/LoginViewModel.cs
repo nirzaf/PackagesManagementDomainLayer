@@ -17,7 +17,6 @@ namespace PackagesManagement.Models.Account
         [Display(Name = "password")]
         public string Password { get; set; }
 
-        [Display(Name = "remember me")]
-        public bool RememberMe { get; set; }
+        [Display(Name = "remember me")] public bool RememberMe { get; set; }
     }
 }

@@ -11,13 +11,15 @@ namespace PackagesManagement.Handlers
 {
     public class DeletePackageCommandHandler : ICommandHandler<DeletePackageCommand>
     {
-        IPackageRepository repo;
-        IEventMediator mediator;
+        private IPackageRepository repo;
+        private IEventMediator mediator;
+
         public DeletePackageCommandHandler(IPackageRepository repo, IEventMediator mediator)
         {
             this.repo = repo;
             this.mediator = mediator;
         }
+
         public async Task HandleAsync(DeletePackageCommand command)
         {
             var deleted = await repo.Delete(command.PackageId);

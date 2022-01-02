@@ -1,5 +1,4 @@
-﻿
-namespace DDD.ApplicationLayer
+﻿namespace DDD.ApplicationLayer
 {
     public interface ICommand
     {

@@ -6,8 +6,9 @@ namespace DDD.ApplicationLayer
     public interface IEventHandler
     {
     }
-    public interface IEventHandler<T>: IEventHandler
-    where T : IEventNotification
+
+    public interface IEventHandler<T> : IEventHandler
+        where T : IEventNotification
     {
         Task HandleAsync(T ev);
     }

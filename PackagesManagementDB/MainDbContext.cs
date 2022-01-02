@@ -12,10 +12,12 @@ namespace PackagesManagementDB
         public DbSet<Package> Packages { get; set; }
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<PackageEvent> PackageEvents { get; set; }
+
         public MainDbContext(DbContextOptions options)
             : base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -46,24 +48,15 @@ namespace PackagesManagementDB
 
         public async Task<bool> SaveEntitiesAsync()
         {
-
-
-
             try
             {
                 return await SaveChangesAsync() > 0;
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                foreach (var entry in ex.Entries)
-                {
-
-                    entry.State = EntityState.Detached;
-
-                }
+                foreach (var entry in ex.Entries) entry.State = EntityState.Detached;
                 throw;
             }
-
         }
 
         public async Task StartAsync()
